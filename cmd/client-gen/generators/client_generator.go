@@ -130,7 +130,7 @@ func DefaultNameSystem() string {
 }
 
 func packageForGroup(gv clientgentypes.GroupVersion, typeList []*types.Type, clientsetPackage string, groupPackageName string, groupGoName string, apiPath string, srcTreePath string, inputPackage string, boilerplate []byte) generator.Package {
-	groupVersionClientPackage := strings.ToLower(filepath.Join(clientsetPackage, "typed", groupPackageName, gv.Version.NonEmpty()))
+	groupVersionClientPackage := strings.ToLower(filepath.ToSlash(filepath.Join(clientsetPackage, "typed", groupPackageName, gv.Version.NonEmpty())))
 	return &generator.DefaultPackage{
 		PackageName: strings.ToLower(gv.Version.NonEmpty()),
 		PackagePath: groupVersionClientPackage,
@@ -226,7 +226,7 @@ func packageForClientset(customArgs *clientgenargs.CustomArgs, clientsetPackage 
 }
 
 func packageForScheme(customArgs *clientgenargs.CustomArgs, clientsetPackage string, srcTreePath string, groupGoNames map[clientgentypes.GroupVersion]string, boilerplate []byte) generator.Package {
-	schemePackage := filepath.Join(clientsetPackage, "scheme")
+	schemePackage := filepath.ToSlash(filepath.Join(clientsetPackage, "scheme"))
 
 	// create runtime.Registry for internal client because it has to know about group versions
 	internalClient := false
@@ -371,7 +371,7 @@ func Packages(context *generator.Context, arguments *args.GeneratorArgs) generat
 	}
 
 	var packageList []generator.Package
-	clientsetPackage := filepath.Join(arguments.OutputPackagePath, customArgs.ClientsetName)
+	clientsetPackage := filepath.ToSlash(filepath.Join(arguments.OutputPackagePath, customArgs.ClientsetName))
 
 	packageList = append(packageList, packageForClientset(customArgs, clientsetPackage, groupGoNames, boilerplate))
 	packageList = append(packageList, packageForScheme(customArgs, clientsetPackage, arguments.OutputBase, groupGoNames, boilerplate))

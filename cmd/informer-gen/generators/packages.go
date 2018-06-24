@@ -88,7 +88,7 @@ func isInternal(m types.Member) bool {
 }
 
 func packageForInternalInterfaces(base string) string {
-	return filepath.Join(base, "internalinterfaces")
+	return filepath.ToSlash(filepath.Join(base, "internalinterfaces"))
 }
 
 func vendorless(p string) string {
@@ -110,11 +110,11 @@ func Packages(context *generator.Context, arguments *args.GeneratorArgs) generat
 		glog.Fatalf("Wrong CustomArgs type: %T", arguments.CustomArgs)
 	}
 
-	internalVersionPackagePath := filepath.Join(arguments.OutputPackagePath)
-	externalVersionPackagePath := filepath.Join(arguments.OutputPackagePath)
+	internalVersionPackagePath := filepath.ToSlash(filepath.Join(arguments.OutputPackagePath))
+	externalVersionPackagePath := filepath.ToSlash(filepath.Join(arguments.OutputPackagePath))
 	if !customArgs.SingleDirectory {
-		internalVersionPackagePath = filepath.Join(arguments.OutputPackagePath, "internalversion")
-		externalVersionPackagePath = filepath.Join(arguments.OutputPackagePath, "externalversions")
+		internalVersionPackagePath = filepath.ToSlash(filepath.Join(arguments.OutputPackagePath, "internalversion"))
+		externalVersionPackagePath = filepath.ToSlash(filepath.Join(arguments.OutputPackagePath, "externalversions"))
 	}
 
 	var packageList generator.Packages
